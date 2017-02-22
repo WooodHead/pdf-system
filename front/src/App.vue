@@ -3,7 +3,7 @@
     <myHeader></myHeader>
     <main>
       <buttonG :plus="plus_plus"></buttonG>
-      <cardList></cardList>
+      <cardList :showOperateTool="false"></cardList>
     </main>
 
   </div>

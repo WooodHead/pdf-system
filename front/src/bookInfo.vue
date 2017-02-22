@@ -4,17 +4,17 @@
     <main>
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="书名">
-          <el-input v-model="form.name" :readonly="true"></el-input>
+          <el-input v-model="form.name" :readonly="ReadOnly"></el-input>
         </el-form-item>
         <el-form-item label="作者">
-          <el-input v-model="form.author" :readonly="true"></el-input>
+          <el-input v-model="form.author" :readonly="ReadOnly"></el-input>
         </el-form-item>
         <el-form-item label="出版时间" >
           <el-date-picker
           v-model="form.publishTime"
           type="date"
           placeholder="选择日期"
-          :picker-options="pickerOptions0" style="width:520px;" :readonly="true">
+          :picker-options="pickerOptions0" style="width:520px;" :readonly="ReadOnly">
         </el-date-picker>
         </el-form-item>
         <el-form-item label="封面图片">
@@ -45,6 +45,7 @@ export default {
     myHeader
   },
   data: () => ({
+    ReadOnly: true,
     fileList: [
 
     ],
@@ -67,7 +68,12 @@ export default {
 
   },
   created(){
-
+    if(this.$route.name == 'bookEdit'){
+      this.ReadOnly = false;
+    }else{
+      this.ReadOnly = true;
+    }
+    console.log(this.$route)
   },
 }
 </script>

@@ -17,7 +17,12 @@ export default new Router({
     },
     {
       path: '/book/:id',
-      name: 'BookInfo',
+      name: 'book',
+      component: BookInfo
+    },
+    {
+      path: '/bookEdit/:id',
+      name: 'bookEdit',
       component: BookInfo
     },
     {

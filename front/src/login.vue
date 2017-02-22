@@ -80,7 +80,7 @@ main{
 .loginBox .input-groups .input-wrap input{
   border: none;
   margin: 0;
-  padding: 10px 10px;
+  padding: 15px 10px;
   width: 276px;
   line-height: 19px;
   color: #555;
@@ -93,6 +93,9 @@ main{
 }
 .loginBox .el-button{
   width: 100%;
+  height: 44px;
+  /*padding-top: 10px;
+  padding-bottom: 10px;*/
   font-size: 15px;
   background-color: #0f88eb;
   transition: background .15s;
