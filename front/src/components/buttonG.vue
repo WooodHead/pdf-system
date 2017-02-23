@@ -8,7 +8,7 @@
       </input>
     </div>
     <el-button-group v-if="plus">
-      <i class="el-icon-plus" @click="toAdd"></i>
+      <i class="el-icon-plus" @click="toAdd" title="添加书本"></i>
     </el-button-group>
   </div>
 </template>

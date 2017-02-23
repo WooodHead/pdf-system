@@ -30,6 +30,6 @@ export default {
 
 <style scoped>
 main{
-  width: 1200px;
+  width: 1100px;
 }
 </style>

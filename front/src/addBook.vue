@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item label="封面图片">
           <el-upload
-            action="//jsonplaceholder.typicode.com/posts/"
+            action="http://127.0.0.1:1234/api/img/upload"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :default-file-list="fileList">
@@ -27,7 +27,7 @@
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
           <div class="imgPreview">
-            <img src="http://ok5zjclbl.bkt.clouddn.com/2017-01-18%20224150.jpg">
+            <img src="" v-if="fileList.length > 0">
           </div>
         </el-form-item>
         <el-form-item>
@@ -40,12 +40,15 @@
 </template>
 
 <script>
+import axios from "axios"
+import api from './config/api'
 import myHeader from './components/myHeader'
 export default {
   components:{
     myHeader
   },
   data: () => ({
+    URL: api.TESTURL,
     fileList: [
 
     ],
@@ -69,11 +72,29 @@ export default {
       console.log(this.fileList)
     },
     onSubmit(){
+      let self = this;
+      let param = {
+        title: self.form.title,
+        author: self.form.author,
+        publishTime: self.form.publishTime,
+        // imgURL: self.form.
+      }
 
+      axios.post( self.URL + "/book/addBook", param)
+        .then((res) => {
+          if(res.data.status){
+            self.$message.success('添加成功！');
+          } else {
+            self.$message.error('添加失败！');
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        })
     },
     back(){
       this.$router.push({ path: '/admin' });
-    }
+    },
   },
   created(){
 

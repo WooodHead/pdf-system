@@ -19,14 +19,14 @@
 </template>
 
 <script>
+import axios from "axios"
+import api from './../config/api'
 export default {
   props: ['showOperateTool'],
   data: () => ({
+    URL: api.TESTURL,
     cardData: [
-      { title: '了不起的NodeJs', publishTime: '2014/03/09', author: '美国路人甲', upload: '2017/02/16', imgURL: 'http://ok5zjclbl.bkt.clouddn.com/2017-01-18%20224150.jpg'},
-      { title: '了不起的NodeJs', publishTime: '2014/03/09', author: '美国路人甲', upload: '2017/02/16', imgURL: 'http://ok5zjclbl.bkt.clouddn.com/2017-01-18%20224150.jpg'},
-      { title: '了不起的NodeJs', publishTime: '2014/03/09', author: '美国路人甲', upload: '2017/02/16', imgURL: 'http://ok5zjclbl.bkt.clouddn.com/2017-01-18%20224150.jpg'},
-      { title: '了不起的NodeJs', publishTime: '2014/03/09', author: '美国路人甲', upload: '2017/02/16', imgURL: 'http://ok5zjclbl.bkt.clouddn.com/2017-01-18%20224150.jpg'}
+
     ],
     checked: [],
   }),
@@ -36,6 +36,9 @@ export default {
     },
     editItem(){
       this.$router.push({ path: '/bookEdit/1' })
+    },
+    getList(){
+
     },
     deleteItem(){
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -56,6 +59,16 @@ export default {
     }
   },
   created(){
+    let self = this;
+    axios.post( self.URL + '/book/getList' , {} )
+      .then((res) => {
+        console.log(JSON.stringify(res.data.data));
+        self.cardData = res.data.data;
+
+      })
+      .catch((err) => {
+        console.error(err);
+      })
   },
   watch: {
 
@@ -79,7 +92,7 @@ export default {
   border-radius: 2px;
 }
 .imgBOX {
-  width: calc(100%-10px);
+  /*width: calc(100%-10px);*/
   height: 200px;
   display: flex;
   flex-grow: row wrap;
@@ -87,10 +100,10 @@ export default {
   justify-content: center;
   overflow: hidden;
   border-radius: 2px 2px 0 0;
-  padding: 5px;
+  padding: 0px;
 }
 .imgBOX img{
-  width: 100%;
+  height: 100%;
 }
 
 .intro{

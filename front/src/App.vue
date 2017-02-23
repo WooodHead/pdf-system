@@ -13,6 +13,7 @@
 import myHeader from './components/myHeader'
 import buttonG from './components/buttonG'
 import cardList from './components/cardList'
+
 export default {
   name: 'app',
   components: {
@@ -31,7 +32,7 @@ export default {
 
 
 main{
-  width: 1200px;
+  width: 1100px;
   margin: 0 auto;
 }
 </style>
