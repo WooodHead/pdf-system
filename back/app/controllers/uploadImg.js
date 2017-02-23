@@ -18,7 +18,7 @@ exports.uploadImg = function *(next) {
     var filename = part.filename;
 
     fileNames.push(filename);
-    var homeDir = path.resolve(__dirname );
+    var homeDir = path.resolve(__dirname, "../../");
 
     var newpath = homeDir + '/static/' + filename;
 

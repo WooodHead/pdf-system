@@ -5,7 +5,7 @@
         <img :src="item.imgURL">
       </div>
       <div class="intro">
-        <h3 @click="toDetail">{{item.title}}</h3>
+        <h3 @click="toDetail(item._id)" >{{item.title}}</h3>
         <h4>
           {{item.publishTime}}
           <div class="operateD" v-if="showOperateTool">
@@ -31,13 +31,28 @@ export default {
     checked: [],
   }),
   methods: {
-    toDetail(){
-      this.$router.push({ path: '/book/1' })
+    toDetail(id){
+      this.$router.push({ path: '/book/' + id});
     },
     editItem(){
       this.$router.push({ path: '/bookEdit/1' })
     },
-    getList(){
+    getList(val){
+      let self = this;
+      var param = {};
+      if(val) {
+        param = {
+          filter: val.searchVal
+        }
+      }
+      axios.post( self.URL + '/book/getList' , param )
+        .then((res) => {
+          // console.log(JSON.stringify(res.data.data));
+          self.cardData = res.data.data;
+        })
+        .catch((err) => {
+          console.error(err);
+        })
 
     },
     deleteItem(){
@@ -59,16 +74,8 @@ export default {
     }
   },
   created(){
-    let self = this;
-    axios.post( self.URL + '/book/getList' , {} )
-      .then((res) => {
-        console.log(JSON.stringify(res.data.data));
-        self.cardData = res.data.data;
-
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+    this.getList();
+    this.$bus.on('searchBookTrigger', this.getList);
   },
   watch: {
 
@@ -84,7 +91,7 @@ export default {
   justify-content: space-between;
 }
 .cardV{
-  width: 250px;
+  width: 220px;
   height: 290px;
   position: relative;
   /*border: 1px solid #000;*/
@@ -100,7 +107,7 @@ export default {
   justify-content: center;
   overflow: hidden;
   border-radius: 2px 2px 0 0;
-  padding: 0px;
+  background: #DADFE1;
 }
 .imgBOX img{
   height: 100%;

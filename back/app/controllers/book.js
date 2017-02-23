@@ -6,16 +6,21 @@ var Book = mongoose.model('Book')
 
 // 得到书本列表
 exports.getBookList = function *(next) {
-	var list = {};
+
+	var list ;
+	var filter = {};
+	if( this.request.body.filter != undefined &&  this.request.body.filter != null && this.request.body.filter != "") {
+		filter.title = new RegExp ( "^.*" + this.request.body.filter + ".*$" );
+		console.log("^.*" + this.request.body.filter + ".*$");
+	}
 
 	try {
-		list = yield Book.find({});
+		list = yield Book.find(filter);
 	} catch (e) {
 
 		this.body = {
 			error: e,
 			status: false,
-			data: list
 		}
 
 		return next;
@@ -26,7 +31,41 @@ exports.getBookList = function *(next) {
 		status: true,
 		data: list
 	}
+
 }
+
+// 根据书本id得到书本列表
+exports.getBookById = function *(next) {
+
+	var id = this.request.body.id;
+
+	var result ;
+
+	try {
+
+		result = yield Book.find({
+			"_id": id
+		});
+
+	} catch (e) {
+
+		this.body = {
+			error: e,
+			status: false,
+		}
+		return next;
+
+	}
+
+	this.body = {
+		status: true,
+		data: result
+	}
+
+
+}
+
+
 
 // 增加书本
 exports.addBook = function *(next) {

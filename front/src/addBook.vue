@@ -4,7 +4,7 @@
     <main>
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="书名">
-          <el-input v-model="form.name"></el-input>
+          <el-input v-model="form.title"></el-input>
         </el-form-item>
         <el-form-item label="作者">
           <el-input v-model="form.author"></el-input>
@@ -21,6 +21,8 @@
           <el-upload
             action="http://127.0.0.1:1234/api/img/upload"
             :on-preview="handlePreview"
+            :multiple="false"
+            :on-success="afterUpload"
             :on-remove="handleRemove"
             :default-file-list="fileList">
             <el-button size="small" type="primary">点击上传</el-button>
@@ -56,7 +58,7 @@ export default {
       title: '',
       author: '',
       publishTime: '',
-
+      imgURL: '',
     }
   }),
   methods: {
@@ -71,13 +73,19 @@ export default {
     handleRemove(){
       console.log(this.fileList)
     },
+    afterUpload(res){
+      this.form.imgURL = res.result.url[0];
+    },
     onSubmit(){
       let self = this;
+      if( this.form.imgURL == "" ) {
+        this.form.imgURL = "http://ok5zjclbl.bkt.clouddn.com/620e418ajw8f8vg376k4mj20dx0e8t9j.jpg";
+      }
       let param = {
         title: self.form.title,
         author: self.form.author,
-        publishTime: self.form.publishTime,
-        // imgURL: self.form.
+        publishTime: api.formatDate(self.form.publishTime),
+        imgURL: self.form.imgURL
       }
 
       axios.post( self.URL + "/book/addBook", param)

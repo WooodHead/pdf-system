@@ -12,6 +12,7 @@ module.exports = function() {
 
   // 书本
   router.post('/book/getList', Book.getBookList);  // 查询书本
+  router.post('/book/getBookById', Book.getBookById);  // 根据id查询书本
   router.post('/book/addBook', Book.addBook);  // 增加书本
   router.post('/book/removeBook', Book.removeBook);  // 删除书本
   router.post('/book/updateBook', Book.updateBook);  // 修改书本

@@ -3,8 +3,7 @@
     <div class="searchInput">
       <input
         icon="search"
-        v-model="searchVal"
-        :on-icon-click="handleIconClick">
+        v-model="searchVal">
       </input>
     </div>
     <el-button-group v-if="plus">
@@ -27,6 +26,15 @@ export default {
     },
     handleIconClick(){
 
+    },
+    searchFunc(){
+      let self = this;
+      this.$bus.emit('searchBookTrigger', {searchVal: self.searchVal});
+    }
+  },
+  watch: {
+    "searchVal": function(){
+      this.searchFunc();
     }
   }
 }
