@@ -15,7 +15,7 @@
           type="date"
           placeholder="选择日期"
           :picker-options="pickerOptions0" style="width:520px;">
-    </el-date-picker>
+          </el-date-picker>
         </el-form-item>
         <el-form-item label="封面图片">
           <el-upload
@@ -92,6 +92,7 @@ export default {
         .then((res) => {
           if(res.data.status){
             self.$message.success('添加成功！');
+            self.$router.push({ path: '/admin' });
           } else {
             self.$message.error('添加失败！');
           }

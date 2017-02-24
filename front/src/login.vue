@@ -4,8 +4,8 @@
       <div class="loginBox">
         <h2><a>未开放</a><a class="active">登录</a></h2>
         <div class="input-groups">
-          <div class="input-wrap"><input v-model="userName" placeholder="用户名"></div>
-          <div class="input-wrap"><input v-model="pass" placeholder="密码" type="password"></div>
+          <div class="input-wrap"><input v-model="form.userName" placeholder="用户名"></div>
+          <div class="input-wrap"><input v-model="form.pass" placeholder="密码" type="password"></div>
 
         </div>
         <el-button type="primary" @click="loginFunc">登陆</el-button>
@@ -16,18 +16,59 @@
 
 <script>
 import myHeader from './components/myHeader'
+import axios from 'axios'
+import api from './config/api'
+import { mapActions, dispatch } from 'vuex'
+import { USER_SIGNIN } from 'store/user'
+import store from './store/'
 export default {
   components: {
     myHeader
   },
-  data: () => ({
-    userName: '',
-    pass: ''
-  }),
-  methods: {
-    loginFunc(){
-      this.$router.push({ path: '/admin' })
+  data(){
+    return {
+      URL: api.TESTURL,
+      form: {
+        userName: '',
+        pass: ''
+      }
     }
+  },
+  methods: {
+    // ...mapActions([USER_SIGNIN]),
+    loginFunc(){
+      let self = this;
+      let param = {
+        userName: self.form.userName,
+        password: self.form.pass
+      }
+      axios.post( self.URL + '/user/login',  param )
+        .then((res) => {
+          if(res.data.status) {
+
+            store.dispatch({
+              type: 'USER_SIGNIN',
+              user: {
+                form: {
+                  userName: self.form.userName,
+                  pass: api.base64encode(self.form.pass)
+                }
+              }
+            })
+
+            self.$router.push({ path: '/admin' });
+            self.$message.success("登录成功！");
+
+          } else {
+            self.$message.error(res.data.error);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+
+    },
+
   },
   created(){
 

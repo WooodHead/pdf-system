@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import store from './../store/'
 export default {
   data () {
     return {
@@ -18,7 +19,12 @@ export default {
       this.$router.push({ path: '/' })
     },
     toAdmin(){
-      this.$router.push({ path: '/admin/login' })
+      if(store.state.user.user){
+        this.$router.push({ path: '/admin' })
+      } else {
+        this.$router.push({ path: '/admin/login' })
+      }
+
     }
   }
 }

@@ -9,8 +9,8 @@
         <h4>
           {{item.publishTime}}
           <div class="operateD" v-if="showOperateTool">
-            <a class="el-icon-edit" title="修改" @click="editItem" ></a>
-            <a class="el-icon-close" title="删除" @click="deleteItem"></a>
+            <a class="el-icon-edit" title="修改" @click="editItem(item._id)" ></a>
+            <a class="el-icon-close" title="删除" @click="deleteItem(item._id)"></a>
           </div>
       </h4>
       </div>
@@ -34,8 +34,8 @@ export default {
     toDetail(id){
       this.$router.push({ path: '/book/' + id});
     },
-    editItem(){
-      this.$router.push({ path: '/bookEdit/1' })
+    editItem(id){
+      this.$router.push({ path: '/bookEdit/' + id })
     },
     getList(val){
       let self = this;
@@ -55,16 +55,38 @@ export default {
         })
 
     },
-    deleteItem(){
+    confirmDelete(id){
+      let self = this;
+      var param = {
+        id: id
+      };
+      axios.post( self.URL + '/book/removeBook', param )
+        .then((res) => {
+          if(res.data.status){
+            self.$message({
+              type: 'success',
+              message: '成功删除！'
+            });
+            self.getList();
+          }else {
+            self.$message({
+              type: 'success',
+              message: '删除失败，请重试！'
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+    },
+    deleteItem(id){
+      let self = this;
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
+          self.confirmDelete(id);
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -75,6 +97,7 @@ export default {
   },
   created(){
     this.getList();
+    console.log(this.$route);
     this.$bus.on('searchBookTrigger', this.getList);
   },
   watch: {
@@ -86,17 +109,22 @@ export default {
 <style lang="css">
 .cardList{
   width: 100%;
-  display: flex;
-  flex-grow: row wrap;
-  justify-content: space-between;
 }
 .cardV{
   width: 220px;
   height: 290px;
+  float: left;
   position: relative;
   /*border: 1px solid #000;*/
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04);
   border-radius: 2px;
+  margin: 0 36.5px 70px;
+}
+.cardV:nth-child(4n+1){
+  margin-left: 0;
+}
+.cardV:nth-child(4n+4){
+  margin-right: 0;
 }
 .imgBOX {
   /*width: calc(100%-10px);*/
