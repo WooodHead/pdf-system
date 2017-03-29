@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item label="封面图片">
           <el-upload
-            action="http://127.0.0.1:1234/api/img/upload"
+            action="http://101.201.69.191:1234/api/img/upload"
             :on-preview="handlePreview"
             :multiple="false"
             :on-success="afterUpload"
@@ -29,7 +29,7 @@
             <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
           <div class="imgPreview">
-            <img src="" v-if="fileList.length > 0">
+            <img :src="form.imgURL" >
           </div>
         </el-form-item>
         <el-form-item>
@@ -78,28 +78,34 @@ export default {
     },
     onSubmit(){
       let self = this;
-      if( this.form.imgURL == "" ) {
-        this.form.imgURL = "http://ok5zjclbl.bkt.clouddn.com/620e418ajw8f8vg376k4mj20dx0e8t9j.jpg";
-      }
-      let param = {
-        title: self.form.title,
-        author: self.form.author,
-        publishTime: api.formatDate(self.form.publishTime),
-        imgURL: self.form.imgURL
+      if(this.form.title != ""){
+
+        if( this.form.imgURL == "" ) {
+          this.form.imgURL = "http://ok5zjclbl.bkt.clouddn.com/620e418ajw8f8vg376k4mj20dx0e8t9j.jpg";
+        }
+        let param = {
+          title: self.form.title,
+          author: self.form.author,
+          publishTime: api.formatDate(self.form.publishTime),
+          imgURL: self.form.imgURL
+        }
+
+        axios.post( self.URL + "/book/addBook", param)
+          .then((res) => {
+            if(res.data.status){
+              self.$message.success('添加成功！');
+              self.$router.push({ path: '/admin' });
+            } else {
+              self.$message.error('添加失败！');
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+      }else {
+        self.$message.error('信息不能为空！');
       }
 
-      axios.post( self.URL + "/book/addBook", param)
-        .then((res) => {
-          if(res.data.status){
-            self.$message.success('添加成功！');
-            self.$router.push({ path: '/admin' });
-          } else {
-            self.$message.error('添加失败！');
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        })
     },
     back(){
       this.$router.push({ path: '/admin' });

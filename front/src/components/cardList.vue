@@ -147,6 +147,13 @@ export default {
 .intro h3{
   color: #333;
   margin-top: 20px;
+  max-height:25px;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
   font-weight: 400;
   cursor: pointer;
 }

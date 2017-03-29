@@ -1,6 +1,7 @@
 var api = {
+  // TESTURL: 'http://101.201.69.191:1234/api',
   TESTURL: 'http://127.0.0.1:1234/api',
-  ROOTURL: '',
+  // ROOTURL: 'http://101.201.69.191/api',
 
   formatDate: function(date) {
       if(typeof(date)!='string'){

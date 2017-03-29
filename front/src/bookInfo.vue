@@ -19,7 +19,7 @@
         </el-form-item>
         <el-form-item label="封面图片">
           <el-upload
-            action="http://127.0.0.1:1234/api/img/upload"
+            action="http://101.201.69.191:1234/api/img/upload"
             :on-preview="handlePreview"
             :multiple="false"
             :on-success="afterUpload"

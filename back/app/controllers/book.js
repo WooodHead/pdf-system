@@ -10,7 +10,7 @@ exports.getBookList = function *(next) {
 	var list ;
 	var filter = {};
 	if( this.request.body.filter != undefined &&  this.request.body.filter != null && this.request.body.filter != "") {
-		filter.title = new RegExp ( "^.*" + this.request.body.filter + ".*$" );
+		filter.title = new RegExp ( "^.*" + this.request.body.filter + ".*$", "gim");
 		console.log("^.*" + this.request.body.filter + ".*$");
 	}
 
