@@ -36,7 +36,7 @@ var cors = require('koa-cors');
 var session = require('koa-session');
 var bodyParser = require('koa-bodyparser');
 
-var app = koa();
+var app = new koa();
 
 app.keys = ['pdfsys'];
 

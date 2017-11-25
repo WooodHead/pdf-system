@@ -1,3 +1,10 @@
+logs
+*.log
+npm-debug.log*
 front/node_modules/
 back/node_modules/
 front/dist/
+*.swp
+.idea/
+.DS_Store
+build/
